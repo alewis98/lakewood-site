@@ -879,6 +879,12 @@ a { color: inherit; }
 .what { font-weight: 600; color: var(--ink); font-size: 0.98rem; }
 .what small { display: block; font-weight: 400; color: var(--ink-soft); font-size: 0.85rem; margin-top: 0.15rem; }
 
+.visit-card .text-link {
+  margin-top: auto;
+  padding-top: 1.6rem;
+  align-self: flex-start;
+}
+
 .find-us { background: linear-gradient(160deg, var(--navy-800), var(--navy-700)); color: #fff; }
 
 .find-us .day { color: #fff; }
@@ -943,7 +949,7 @@ a { color: inherit; }
 
 .f-col address { font-style: normal; line-height: 1.7; margin-bottom: 0.6rem; }
 .f-col p { margin-bottom: 0.45rem; font-size: 0.95rem; }
-.f-col .text-link { display: inline-flex; margin-bottom: 0.55rem; font-size: 0.95rem; }
+.f-col .text-link { display: flex; width: fit-content; margin-bottom: 0.55rem; font-size: 0.95rem; }
 
 .f-bottom { display: flex; justify-content: center; padding-top: 1.8rem; font-size: 0.85rem; color: rgba(200, 214, 226, 0.65); }
 
