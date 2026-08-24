@@ -788,7 +788,26 @@ a { color: inherit; }
 
 /* visit */
 
-.visit { background: linear-gradient(var(--cream), #eef3f5); }
+.visit { background: #eef3f5; }
+
+.swoosh-break {
+  position: relative;
+  height: clamp(90px, 11vw, 150px);
+  margin-block: -1px;
+  background: linear-gradient(var(--cream) 0%, #eef3f5 100%);
+  overflow: hidden;
+}
+
+.swoosh-break svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.swoosh-break path {
+  filter: drop-shadow(0 12px 16px rgba(207, 58, 38, 0.28));
+}
 
 .visit-grid {
   display: grid;
