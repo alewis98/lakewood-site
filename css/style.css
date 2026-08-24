@@ -170,6 +170,22 @@ a { color: inherit; }
 
 .btn-primary:hover { box-shadow: 0 20px 42px -12px rgba(207, 58, 38, 0.8); }
 
+.btn-blue {
+  background: linear-gradient(120deg, var(--teal-bright), var(--teal));
+  color: #fff;
+  box-shadow: 0 14px 34px -12px rgba(42, 123, 163, 0.65);
+}
+
+.btn-blue:hover { box-shadow: 0 20px 42px -12px rgba(42, 123, 163, 0.8); }
+
+.btn-navy {
+  background: linear-gradient(120deg, var(--navy-700), var(--navy-900));
+  color: #fff;
+  box-shadow: 0 14px 34px -12px rgba(7, 20, 38, 0.6);
+}
+
+.btn-navy:hover { box-shadow: 0 20px 42px -12px rgba(7, 20, 38, 0.75); }
+
 .btn-ghost {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
@@ -753,31 +769,43 @@ a { color: inherit; }
 
 /* beliefs */
 
+.values-band {
+  position: relative;
+  min-height: 66px;
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 2.6rem;
+  filter: drop-shadow(0 14px 22px rgba(7, 20, 38, 0.3));
+}
+
+.values-brush {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .values {
+  position: relative;
+  z-index: 1;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.9rem;
-  margin-bottom: 2.6rem;
+  justify-content: space-around;
+  align-items: center;
+  row-gap: 0.35rem;
+  width: 100%;
+  padding: 1rem clamp(2.4rem, 8vw, 6rem);
 }
 
-.values li span {
-  display: inline-block;
+.values li {
   font-weight: 700;
-  font-size: 1.02rem;
-  letter-spacing: 0.06em;
-  padding: 0.65rem 1.5rem;
-  border-radius: 999px;
+  font-size: clamp(0.95rem, 1.7vw, 1.15rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(120deg, var(--navy-700), var(--teal));
-  box-shadow: 0 12px 26px -12px rgba(18, 52, 82, 0.7);
-  transition: transform 0.3s ease;
+  white-space: nowrap;
 }
-
-.values li:nth-child(2) span { background: linear-gradient(120deg, var(--teal), var(--teal-bright)); }
-.values li:nth-child(3) span { background: linear-gradient(120deg, var(--flame-hot), var(--flame)); }
-.values li:nth-child(4) span { background: linear-gradient(120deg, var(--flame-deep), var(--flame)); }
-.values li span:hover { transform: translateY(-4px) scale(1.04); }
 
 .belief-links {
   display: flex;
@@ -829,13 +857,7 @@ a { color: inherit; }
   gap: 0.6rem;
 }
 
-.visit-card .day::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: linear-gradient(120deg, var(--flame-hot), var(--flame));
-}
+.day-icon { color: var(--flame); flex: 0 0 auto; }
 
 .schedule { list-style: none; display: grid; gap: 1.05rem; }
 
