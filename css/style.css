@@ -583,6 +583,7 @@ a { color: inherit; }
 /* cards */
 
 .cards { display: grid; gap: 1.4rem; }
+.cards + .cards { margin-top: 2.4rem; }
 .cards.three { grid-template-columns: repeat(3, 1fr); }
 
 .card {
