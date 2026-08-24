@@ -329,6 +329,7 @@ a { color: inherit; }
   height: 74vmax;
   background: linear-gradient(to bottom, rgba(255, 214, 150, 0.5), transparent 70%);
   transform-origin: top center;
+  filter: blur(9px);
   animation: sway 11s ease-in-out infinite alternate;
 }
 
@@ -339,8 +340,8 @@ a { color: inherit; }
 .rays span:nth-child(5) { transform: rotate(52deg); animation-delay: -8s; }
 
 @keyframes sway {
-  from { filter: blur(6px); opacity: 0.5; }
-  to { filter: blur(10px); opacity: 1; }
+  from { opacity: 0.45; }
+  to { opacity: 1; }
 }
 
 /* cross rig: rises with scroll */
@@ -361,6 +362,22 @@ a { color: inherit; }
 }
 
 .halo { opacity: calc(var(--p, 0) * 0.9); }
+
+/* performance: lite mode on weak devices, pause everything when hero is off-screen */
+
+.scene.lite .rays { display: none; }
+.scene.lite .stars i:nth-child(n + 7) { display: none; }
+.scene.lite .splash::after { animation: none; }
+
+.scene.offscreen .wave-a-slow,
+.scene.offscreen .wave-b,
+.scene.offscreen .wave-c,
+.scene.offscreen .glint,
+.scene.offscreen .stars i,
+.scene.offscreen .rays span,
+.scene.offscreen .splash::after,
+.scene.offscreen .scroll-hint svg,
+.scene.offscreen .cross-bob { animation-play-state: paused; }
 
 /* water */
 
@@ -923,6 +940,25 @@ a { color: inherit; }
 /* footer */
 
 .footer { background: var(--navy-950); color: #c8d6e2; padding: clamp(3.5rem, 7vw, 5.5rem) 0 2rem; }
+
+.footer-swoosh {
+  position: relative;
+  height: clamp(90px, 11vw, 140px);
+  margin-bottom: -1px;
+  background: var(--cream);
+  overflow: hidden;
+}
+
+.footer-swoosh svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.footer-swoosh .stroke {
+  filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.35));
+}
 
 .footer-grid {
   display: grid;
