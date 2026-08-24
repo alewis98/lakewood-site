@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lakewood Community Church — An Evangelical Methodist Congregation | Ringgold, VA</title>
+<meta name="description" content="Lakewood Community Church in Ringgold, VA — a place to CONNECT, GROW, & SERVE. Join us Sundays for Sunday School and Worship, Wednesdays for prayer. An Evangelical Methodist Congregation since 1939.">
+<meta property="og:title" content="Lakewood Community Church — Where Faith Rises">
+<meta property="og:description" content="A place to CONNECT, GROW, & SERVE. Worship Sundays at 10:15 AM, 129 Clarks Mill Road, Ringgold, VA.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/lakewood-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="nav-brand" href="#home" aria-label="Lakewood Community Church — home">
+    <img class="logo-light" src="assets/lakewood-logo-white.png" alt="Lakewood Community Church" width="164" height="50">
+    <img class="logo-dark" src="assets/lakewood-logo.png" alt="Lakewood Community Church" width="164" height="50">
+  </a>
+  <nav class="nav-links" id="navLinks" aria-label="Primary">
+    <a href="beliefs.html">Beliefs</a>
+    <a href="history.html">Our Story</a>
+    <a href="services.html">Services</a>
+    <a href="prayer.html">Prayer</a>
+    <a href="contact.html">Contact</a>
+    <a class="btn btn-donate" href="donate.html">Give</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<section class="scene" id="home">
+  <div class="stage">
+
+    <div class="sky"></div>
+    <div class="dawn"></div>
+    <div class="stars" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+    <div class="sun" aria-hidden="true"></div>
+    <div class="rays" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+
+    <svg class="layer water-back" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="wBack" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2a6f96" stop-opacity=".55"/>
+          <stop offset="1" stop-color="#0d3350" stop-opacity=".8"/>
+        </linearGradient>
+      </defs>
+      <path class="wave wave-a-slow" fill="url(#wBack)"
+        d="M0,566 C100,556 200,576 300,566 C400,556 500,576 600,566 C700,556 800,576 900,566 C1000,556 1100,576 1200,566 C1300,556 1400,576 1500,566 C1600,556 1700,576 1800,566 C1900,556 2000,576 2100,566 C2200,556 2300,576 2400,566 L2400,800 L0,800 Z"/>
+    </svg>
+
+    <svg class="layer cross-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="woodV" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#4a2e17"/>
+          <stop offset=".22" stop-color="#7c4f28"/>
+          <stop offset=".5" stop-color="#a06a38"/>
+          <stop offset=".78" stop-color="#7c4f28"/>
+          <stop offset="1" stop-color="#3f2712"/>
+        </linearGradient>
+        <linearGradient id="woodH" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#54341a"/>
+          <stop offset=".3" stop-color="#8a5a2e"/>
+          <stop offset=".55" stop-color="#a97440"/>
+          <stop offset="1" stop-color="#462b14"/>
+        </linearGradient>
+        <radialGradient id="halo" cx=".5" cy=".5" r=".5">
+          <stop offset="0" stop-color="#ffcf7d" stop-opacity=".5"/>
+          <stop offset=".6" stop-color="#ff9d4d" stop-opacity=".14"/>
+          <stop offset="1" stop-color="#ff9d4d" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="reflFade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+          <stop offset=".7" stop-color="#fff" stop-opacity=".08"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </linearGradient>
+        <mask id="reflMask">
+          <rect x="0" y="580" width="1200" height="220" fill="url(#reflFade)"/>
+        </mask>
+        <filter id="reflBlur" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="5"/>
+        </filter>
+        <g id="crossShape">
+          <rect x="584" y="196" width="32" height="392" rx="7" fill="url(#woodV)"/>
+          <rect x="497" y="292" width="206" height="30" rx="7" fill="url(#woodH)"/>
+          <path d="M590 208 C588 290 592 380 589 470 C588 510 590 550 589 578" stroke="#3a2310" stroke-width="2" fill="none" opacity=".35"/>
+          <path d="M606 214 C608 300 604 400 607 500 C608 530 606 560 607 580" stroke="#3a2310" stroke-width="1.6" fill="none" opacity=".28"/>
+          <path d="M505 300 C560 297 640 303 695 299" stroke="#3a2310" stroke-width="1.8" fill="none" opacity=".3"/>
+          <path d="M503 312 C570 315 640 310 697 313" stroke="#3a2310" stroke-width="1.4" fill="none" opacity=".24"/>
+          <path d="M586 202 L586 584" stroke="#e2aa6b" stroke-width="1.6" opacity=".5"/>
+          <path d="M499 295 L699 295" stroke="#e2aa6b" stroke-width="1.3" opacity=".45"/>
+        </g>
+      </defs>
+      <ellipse class="halo" cx="600" cy="380" rx="330" ry="300" fill="url(#halo)"/>
+      <g class="cross-rig">
+        <g class="cross-bob">
+          <g class="cross-reflection" mask="url(#reflMask)" filter="url(#reflBlur)">
+            <use href="#crossShape" transform="translate(0,1172) scale(1,-1)"/>
+          </g>
+          <use class="cross-body" href="#crossShape"/>
+        </g>
+      </g>
+    </svg>
+
+    <div class="splash" aria-hidden="true">
+      <span class="ripple"></span>
+      <span class="ripple r2"></span>
+      <span class="ripple r3"></span>
+      <i class="droplet d1"></i><i class="droplet d2"></i><i class="droplet d3"></i><i class="droplet d4"></i><i class="droplet d5"></i><i class="droplet d6"></i>
+    </div>
+
+    <svg class="layer water-front" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="wFront" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#155a7e"/>
+          <stop offset=".35" stop-color="#0d3d5c"/>
+          <stop offset="1" stop-color="#051a2c"/>
+        </linearGradient>
+        <linearGradient id="wFrontB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1e6d94" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#0a2e48" stop-opacity=".95"/>
+        </linearGradient>
+      </defs>
+      <path class="wave wave-b" fill="url(#wFrontB)" opacity=".8"
+        d="M0,574 C120,564 240,584 360,574 C480,564 600,584 720,574 C840,564 960,584 1080,574 C1200,564 1320,584 1440,574 C1560,564 1680,584 1800,574 C1920,564 2040,584 2160,574 C2280,564 2400,584 2520,574 L2520,800 L0,800 Z"/>
+      <path class="wave wave-c" fill="url(#wFront)"
+        d="M0,584 C150,574 300,594 450,584 C600,574 750,594 900,584 C1050,574 1200,594 1350,584 C1500,574 1650,594 1800,584 C1950,574 2100,594 2250,584 C2400,574 2550,594 2700,584 L2700,800 L0,800 Z"/>
+      <path class="glint" d="M0,586 C150,576 300,596 450,586 C600,576 750,596 900,586 C1050,576 1200,596 1350,586 C1500,576 1650,596 1800,586 C1950,576 2100,596 2250,586 C2400,576 2550,596 2700,586" fill="none" stroke="#ffd9a0" stroke-width="2" opacity=".35"/>
+    </svg>
+
+    <div class="hero-copy">
+      <p class="eyebrow">Ringgold, Virginia &middot; Est. 1939</p>
+      <h1>Where faith <em>rises.</em></h1>
+      <p class="lede">Lakewood Community Church is a place to worship, fellowship, and grow — an Evangelical Methodist congregation where everyone has a seat at the table.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#visit">Plan Your Visit</a>
+        <a class="btn btn-ghost" href="https://www.facebook.com/LakewoodCC1" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          Watch Live
+        </a>
+      </div>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span>Keep scrolling</span>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v14m0 0l-6-6m6 6l6-6"/></svg>
+    </div>
+
+  </div>
+</section>
+
+<main>
+
+  <section class="section mission" id="mission">
+    <div class="wrap reveal">
+      <p class="eyebrow accent">Our Mission</p>
+      <h2 class="mission-line">To present the Gospel in such a way that it turns <span class="accent-word">non&#8209;Christians</span> into <span class="accent-word">converts</span>, converts into <span class="accent-word">disciples</span>, and disciples into mature, fruitful <span class="accent-word">leaders</span> who will in turn go into the world and reach others for Christ.</h2>
+    </div>
+  </section>
+
+  <section class="section pillars" id="connect">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow accent">Lakewood Community Church</p>
+        <h2>A place to <span class="grad-text">Connect</span>, <span class="grad-text">Grow</span>, &amp; <span class="grad-text">Serve</span></h2>
+      </div>
+      <div class="cards three">
+        <article class="card reveal">
+          <div class="card-icon ci-connect">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 108 0 4 4 0 00-8 0z"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/><circle cx="9" cy="8" r="3"/><circle cx="16.5" cy="7.5" r="2.5"/></svg>
+          </div>
+          <h3>Connect</h3>
+          <p>Families grow up together in communities. We meet people where they are and do life together — Sundays, Wednesdays, and every day in between.</p>
+        </article>
+        <article class="card reveal delay-1">
+          <div class="card-icon ci-grow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10"/><path d="M12 10C12 6 9 3 4 3c0 5 3 8 8 7z"/><path d="M12 13c0-3 2.5-5.5 8-5.5-.5 5-3.5 7-8 5.5z"/><path d="M8 21h8"/></svg>
+          </div>
+          <h3>Grow</h3>
+          <p>From Sunday School to Wednesday prayer, we hold fast to the doctrine, spirit, and discipline of our faith — growing deep roots together.</p>
+        </article>
+        <article class="card reveal delay-2">
+          <div class="card-icon ci-serve">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 005.4-5.4L15 12l-3-3 2.7-2.7z"/></svg>
+          </div>
+          <h3>Serve</h3>
+          <p>Jesus Christ radically transforms lives — and transformed people transform communities, from Ringgold to the ends of the earth.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section story" id="story">
+    <div class="wrap story-grid">
+      <div class="story-copy reveal">
+        <p class="eyebrow accent">Our Story</p>
+        <h2>Rooted on Clarks Mill Road since <span class="year-big">1939</span></h2>
+        <p>In 1939, a small group of Christians living in the Lakewood Community became aware of the great need for a place of worship. For a short period of time, services were held in a home.</p>
+        <p>Realizing the interest in building a church, the group appointed a building committee and began raising funds for a building program. That was the beginning of our ministry as a church — and we continue to grow today.</p>
+        <a class="text-link" href="history.html">Read the full history
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+        </a>
+      </div>
+      <div class="timeline reveal delay-1" aria-hidden="false">
+        <div class="t-item">
+          <span class="t-year">1939</span>
+          <p>A handful of neighbors begin meeting for worship in a home.</p>
+        </div>
+        <div class="t-item">
+          <span class="t-year">1940s</span>
+          <p>A building committee forms; the community rallies to raise funds and build.</p>
+        </div>
+        <div class="t-item">
+          <span class="t-year">Today</span>
+          <p>Generations later, Lakewood keeps connecting, growing, and serving — live on the lake and live on Facebook.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wesley" id="roots">
+    <div class="wrap reveal">
+      <div class="quote-mark" aria-hidden="true">&ldquo;</div>
+      <blockquote>
+        <p>I am not afraid that the people called Methodists should ever cease to exist either in Europe or America. But I am afraid lest they should only exist as a dead sect, having the form of religion without the power. And this undoubtedly will be the case unless they hold fast both the doctrine, spirit, and discipline with which they first set out.</p>
+        <cite>— John Wesley, Evangelist</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="section beliefs" id="beliefs">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow accent">What We Believe</p>
+        <h2>Four primary values, one clear message</h2>
+        <p class="section-sub">In order to keep the heart of God&rsquo;s message clear, and the church&rsquo;s mission strong and vital, we continually center on four primary values.</p>
+      </div>
+      <ul class="values reveal">
+        <li><span>People</span></li>
+        <li><span>Community</span></li>
+        <li><span>Faith</span></li>
+        <li><span>Outreach</span></li>
+      </ul>
+      <div class="cards three">
+        <article class="card flat reveal">
+          <p>The EMC works to make our communities a better place to live, meeting people where they are.</p>
+          <cite>emchurch.org</cite>
+        </article>
+        <article class="card flat reveal delay-1">
+          <p>The Evangelical Methodist Church is convinced that Jesus Christ can radically transform a life — resulting in a vital, personal relationship with God and a transformed relationship with people from all cultures and ethnicities.</p>
+          <cite>emchurch.org</cite>
+        </article>
+        <article class="card flat reveal delay-2">
+          <p>We are an Evangelical Methodist congregation — evangelical in conviction, Methodist in heritage, warm in welcome.</p>
+          <cite>Our Beliefs</cite>
+        </article>
+      </div>
+      <div class="belief-links reveal">
+        <a class="btn btn-outline" href="beliefs.html">Our Beliefs</a>
+        <a class="btn btn-outline" href="doctrine.html">EMC Doctrine</a>
+        <a class="btn btn-outline" href="staff.html">Staff</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section visit" id="visit">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow accent">Join Us</p>
+        <h2>Service times &amp; location</h2>
+        <p class="section-sub">Come as you are — there&rsquo;s a seat for you at Lakewood.</p>
+      </div>
+      <div class="visit-grid">
+        <article class="card visit-card reveal">
+          <p class="day">Sunday</p>
+          <ul class="schedule">
+            <li><span class="time">9:00 AM</span><span class="what">Adult Sunday School</span></li>
+            <li><span class="time">10:15 AM</span><span class="what">Worship Service<small>Children&rsquo;s Church (ages 3&ndash;9) &middot; Nursery available for moms</small></span></li>
+            <li><span class="time">Live</span><span class="what">Streamed on Facebook<small>Worship with us from anywhere</small></span></li>
+          </ul>
+        </article>
+        <article class="card visit-card reveal delay-1">
+          <p class="day">Wednesday</p>
+          <ul class="schedule">
+            <li><span class="time">10:00 AM</span><span class="what">Prayer Group<small>Everyone is welcome</small></span></li>
+          </ul>
+          <a class="text-link" href="services.html">More about services
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"/></svg>
+          </a>
+        </article>
+        <article class="card visit-card find-us reveal delay-2">
+          <p class="day">Find Us</p>
+          <address>
+            129 Clarks Mill Road<br>
+            Ringgold, VA 24586
+          </address>
+          <div class="find-actions">
+            <a class="btn btn-primary sm" href="https://www.google.com/maps/search/?api=1&query=129+Clarks+Mill+Road+Ringgold+VA+24586" target="_blank" rel="noopener">Get Directions</a>
+            <a class="btn btn-ghost sm" href="https://www.facebook.com/LakewoodCC1" target="_blank" rel="noopener">Facebook</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pray" id="pray">
+    <div class="wrap">
+      <div class="cta-band reveal">
+        <div class="cta-cell">
+          <h3>Need prayer?</h3>
+          <p>Our church family would be honored to lift you up. Send us your prayer request — no request is too small.</p>
+          <a class="btn btn-light" href="prayer.html">Send a Prayer Request</a>
+        </div>
+        <div class="cta-cell gold">
+          <h3>Give with a cheerful heart</h3>
+          <p>Your generosity keeps ministry alive in Ringgold and beyond — supporting worship, outreach, and families.</p>
+          <a class="btn btn-dark" href="donate.html">Donate</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer" id="contact">
+  <div class="wrap footer-grid">
+    <div class="f-brand">
+      <img src="assets/lakewood-logo-white.png" alt="Lakewood Community Church logo" width="220" height="67">
+      <p class="f-tag">An Evangelical Methodist Congregation</p>
+      <p class="f-motto">A place to Connect, Grow, &amp; Serve.</p>
+    </div>
+    <div class="f-col">
+      <h4>Visit</h4>
+      <address>
+        129 Clarks Mill Road<br>
+        Ringgold, VA 24586
+      </address>
+      <a class="text-link light" href="https://www.google.com/maps/search/?api=1&query=129+Clarks+Mill+Road+Ringgold+VA+24586" target="_blank" rel="noopener">Directions</a>
+    </div>
+    <div class="f-col">
+      <h4>Worship</h4>
+      <p>Sunday School &middot; 9:00 AM</p>
+      <p>Worship Service &middot; 10:15 AM</p>
+      <p>Prayer Group &middot; Wed 10:00 AM</p>
+    </div>
+    <div class="f-col">
+      <h4>Connect</h4>
+      <a class="text-link light" href="https://www.facebook.com/LakewoodCC1" target="_blank" rel="noopener">Follow us on Facebook</a>
+      <a class="text-link light" href="contact.html">Contact Us</a>
+      <a class="text-link light" href="prayer.html">Prayer Requests</a>
+    </div>
+  </div>
+  <div class="wrap f-bottom">
+    <p>&copy; <span id="year">2026</span> Lakewood Community Church &middot; Ringgold, Virginia</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
