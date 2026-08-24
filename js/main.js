@@ -230,3 +230,70 @@ document.querySelectorAll("form[data-mailto]").forEach((form) => {
   </svg>`;
   footer.parentNode.insertBefore(div, footer);
 })();
+
+
+/* ---- next-service countdown (hero) ---- */
+
+(function () {
+  const what = document.getElementById("cdWhat");
+  const time = document.getElementById("cdTime");
+  if (!what || !time) return;
+
+  const TZ = "America/New_York";
+  const services = [
+    { dow: 0, h: 9, m: 0, label: "Sunday School" },
+    { dow: 0, h: 10, m: 15, label: "Worship Service" },
+    { dow: 3, h: 10, m: 0, label: "Prayer Group" }
+  ];
+  const dowMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+  const partFmt = new Intl.DateTimeFormat("en-US", {
+    timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit", weekday: "short"
+  });
+
+  function etParts(date) {
+    const p = {};
+    for (const part of partFmt.formatToParts(date)) p[part.type] = part.value;
+    return p;
+  }
+
+  function etOffsetMs(date) {
+    const name = new Intl.DateTimeFormat("en-US", { timeZone: TZ, timeZoneName: "longOffset" })
+      .formatToParts(date).find((x) => x.type === "timeZoneName").value;
+    const m = name.match(/GMT([+-])(\d{2})(?::(\d{2}))?/);
+    if (!m) return 0;
+    const mins = parseInt(m[2], 10) * 60 + (m[3] ? parseInt(m[3], 10) : 0);
+    return (m[1] === "-" ? -mins : mins) * 60000;
+  }
+
+  function nextService() {
+    const now = Date.now();
+    for (let day = 0; day < 8; day++) {
+      const p = etParts(new Date(now + day * 86400000));
+      const y = parseInt(p.year, 10);
+      const mo = parseInt(p.month, 10) - 1;
+      const d = parseInt(p.day, 10);
+      for (const s of services) {
+        if (dowMap[p.weekday] !== s.dow) continue;
+        const wall = Date.UTC(y, mo, d, s.h, s.m);
+        const ts = wall - etOffsetMs(new Date(wall));
+        if (ts > now + 60000) return { ts, label: s.label };
+      }
+    }
+    return null;
+  }
+
+  function tick() {
+    const next = nextService();
+    if (!next) return;
+    what.textContent = next.label;
+    const diff = Math.max(0, next.ts - Date.now());
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    time.textContent = "in " + (d > 0 ? d + "d " : "") + h + "h " + String(m).padStart(2, "0") + "m";
+  }
+
+  tick();
+  setInterval(tick, 20000);
+})();
