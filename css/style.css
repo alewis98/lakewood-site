@@ -1017,7 +1017,8 @@ a { color: inherit; }
     -webkit-backdrop-filter: none;
   }
 
-  .nav-links a:not(.btn) { color: #fff; font-size: 1.4rem; }
+  .nav-links a:not(.btn),
+  .nav.scrolled .nav-links a:not(.btn) { color: #fff; font-size: 1.4rem; }
 }
 
 @media (max-width: 640px) {
@@ -1339,6 +1340,8 @@ a { color: inherit; }
   padding: clamp(1.8rem, 4vw, 2.6rem);
   max-width: 40rem;
 }
+
+.prose + .form-card { margin-top: 2.4rem; }
 
 .form-grid { display: grid; gap: 1.2rem; margin-top: 1.6rem; }
 
