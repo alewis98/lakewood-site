@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo comparison — traced original vs Libre Baskerville + Times italic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,700;1,400&amp;display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; margin: 0; }
+  .panel { padding: 44px 6vw 56px; }
+  .panel h2 { margin: 0 0 10px; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; opacity: .55; }
+  .light { background: #f8f4ec; color: #14293f; }
+  .dark { background: #071426; color: #fff; }
+  .row { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end; margin-top: 28px; }
+  .cell { flex: 1 1 380px; max-width: 620px; }
+  .cell img { width: 100%; display: block; }
+  .rec { position: relative; display: block; padding: 0 0 6px 13%; }
+  .rec .cross { position: absolute; height: 118%; left: -1%; top: -9%; width: auto; }
+  .rec .l1 { display: block; font-family: "Libre Baskerville", Georgia, serif; font-weight: 700; font-size: clamp(42px, 7.6vw, 96px); line-height: 1; letter-spacing: .01em; white-space: nowrap; }
+  .rec .l2 { display: block; font-family: "Times New Roman", Tinos, Georgia, serif; font-style: italic; font-size: clamp(28px, 5vw, 62px); line-height: 1.05; margin-top: 4px; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<section class="panel light">
+  <h2>A — Traced original (current)</h2>
+  <div class="row"><div class="cell"><img src="assets/lakewood-logo.svg" alt="Traced logo"></div></div>
+
+  <h2 style="margin-top: 44px">B — Libre Baskerville bold + Times New Roman italic (chosen)</h2>
+  <div class="row"><div class="cell">
+    <span class="rec">
+      <img class="cross" src="assets/logo-cross.svg" alt="" aria-hidden="true">
+      <span class="l1">LAKEWOOD</span>
+      <span class="l2">Community Church</span>
+    </span>
+  </div></div>
+</section>
+
+<section class="panel dark">
+  <h2>A — Traced original (current)</h2>
+  <div class="row"><div class="cell"><img src="assets/lakewood-logo-white.svg" alt="Traced logo"></div></div>
+
+  <h2 style="margin-top: 44px">B — Libre Baskerville bold + Times New Roman italic (chosen)</h2>
+  <div class="row"><div class="cell">
+    <span class="rec">
+      <img class="cross" src="assets/logo-cross.svg" alt="" aria-hidden="true">
+      <span class="l1">LAKEWOOD</span>
+      <span class="l2">Community Church</span>
+    </span>
+  </div></div>
+</section>
+
+</body>
+</html>

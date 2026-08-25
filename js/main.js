@@ -28,12 +28,19 @@ function playRide(dir) {
   riding = true;
   ridePlayed = true;
   const id = ++rideId;
-  const duration = dir === "fwd" ? 1500 : 1200;
+  const duration = dir === "fwd" ? 1500 : 1500;
   const start = performance.now();
+  if (dir === "rev") stage.classList.add("logo-out");
+  else stage.classList.remove("logo-out");
   const step = (now) => {
     if (id !== rideId) return;
     const t = Math.min(1, (now - start) / duration);
-    const q = 1 - Math.pow(1 - t, 3);
+    let q = 1 - Math.pow(1 - t, 3);
+    if (dir === "rev") {
+      /* logo exits first: hold the risen pose briefly, then sink */
+      const tt = Math.max(0, (t - 0.2) / 0.8);
+      q = 1 - Math.pow(1 - tt, 3);
+    }
     const p = dir === "fwd" ? q : 1 - q;
     const rise = smoothstep((p - 0.05) / 0.786);
     stage.style.setProperty("--p", p.toFixed(3));
