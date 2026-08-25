@@ -166,6 +166,43 @@ navLinks.querySelectorAll("a").forEach((link) => {
   });
 });
 
+/* ---- "keep scrolling" prompt: play the full rise automatically ---- */
+
+(function () {
+  const hint = document.getElementById("scrollHint");
+  if (!hint || !scene) return;
+
+  hint.addEventListener("click", () => {
+    const targetY =
+      scene.getBoundingClientRect().top + window.scrollY + scene.offsetHeight - window.innerHeight;
+    const startY = window.scrollY;
+    const dist = targetY - startY;
+    if (dist <= 0) return;
+
+    if (reduceMotion) {
+      window.scrollTo({ top: targetY, behavior: "instant" });
+      return;
+    }
+
+    const duration = 2200;
+    const start = performance.now();
+    let cancelled = false;
+    const cancel = () => { cancelled = true; };
+    window.addEventListener("wheel", cancel, { passive: true, once: true });
+    window.addEventListener("touchstart", cancel, { passive: true, once: true });
+    window.addEventListener("keydown", cancel, { once: true });
+
+    const step = (now) => {
+      if (cancelled) return;
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      window.scrollTo({ top: startY + dist * eased, behavior: "instant" });
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  });
+})();
+
 /* ---- reveal on scroll ---- */
 
 const revealObserver = new IntersectionObserver(

@@ -554,8 +554,16 @@ a { color: inherit; }
   font-size: 0.75rem;
   letter-spacing: 0.26em;
   text-transform: uppercase;
+  font-family: var(--font-body);
+  background: none;
+  border: 0;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
   opacity: calc(1 - var(--p, 0) * 3);
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
+
+.scroll-hint:hover { color: #fff; }
 
 .scroll-hint svg { animation: hintBob 1.8s ease-in-out infinite; }
 
