@@ -15,37 +15,48 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-/* ---- cross rise: a two-state gate with all-or-nothing rides ---- */
+/* ---- cross rise: a two-state gate with staged, all-or-nothing rides ---- */
 
 let heroState = "top"; /* "top" (sunken) | "risen" (afloat) */
 let riding = false;
 let splashed = false;
-
 let rideId = 0;
 
 function playRide(dir) {
   if (riding) return;
   riding = true;
-  ridePlayed = true;
   const id = ++rideId;
-  const duration = dir === "fwd" ? 1500 : 1500;
+  const duration = dir === "fwd" ? 1600 : 1700;
   const start = performance.now();
-  if (dir === "rev") stage.classList.add("logo-out");
-  else stage.classList.remove("logo-out");
+  const timers = [];
+  const later = (fn, ms) => timers.push(setTimeout(() => { if (id === rideId) fn(); }, ms));
+
+  if (dir === "fwd") {
+    stage.classList.remove("logo-out", "lg1", "lg2", "lg3", "afloat");
+    later(() => stage.classList.add("lg1"), 780);
+    later(() => stage.classList.add("lg2"), 980);
+    later(() => stage.classList.add("lg3"), 1180);
+    later(() => stage.classList.add("afloat"), 1380);
+  } else {
+    stage.classList.remove("afloat", "lg3");
+    later(() => stage.classList.remove("lg2"), 220);
+    later(() => stage.classList.remove("lg1"), 440);
+    stage.classList.remove("logo-out");
+  }
+
   const step = (now) => {
     if (id !== rideId) return;
     const t = Math.min(1, (now - start) / duration);
     let q = 1 - Math.pow(1 - t, 3);
     if (dir === "rev") {
-      /* logo exits first: hold the risen pose briefly, then sink */
-      const tt = Math.max(0, (t - 0.2) / 0.8);
+      /* hold the risen pose while the logo elements exit, then sink */
+      const tt = Math.max(0, (t - 0.28) / 0.72);
       q = 1 - Math.pow(1 - tt, 3);
     }
     const p = dir === "fwd" ? q : 1 - q;
     const rise = smoothstep((p - 0.05) / 0.786);
     stage.style.setProperty("--p", p.toFixed(3));
     stage.style.setProperty("--rise", rise.toFixed(3));
-    stage.classList.toggle("afloat", rise > 0.97);
     if (dir === "fwd" && rise > 0.55 && !splashed) {
       splashed = true;
       stage.querySelector(".splash").classList.add("go");
@@ -54,11 +65,11 @@ function playRide(dir) {
       requestAnimationFrame(step);
       return;
     }
-    heroState = dir === "fwd" ? "risen" : "top";
-    if (heroState === "top") {
-      stage.querySelector(".splash").classList.remove("go");
+    if (dir === "rev") {
+      stage.classList.remove("lg1", "lg2", "lg3", "logo-out");
       splashed = false;
     }
+    heroState = dir === "fwd" ? "risen" : "top";
     riding = false;
   };
   requestAnimationFrame(step);
@@ -70,8 +81,8 @@ function resetHero() {
   ridePlayed = false;
   splashed = false;
   heroState = "top";
+  stage.classList.remove("lg1", "lg2", "lg3", "logo-out", "afloat");
   stage.querySelector(".splash").classList.remove("go");
-  stage.classList.remove("afloat");
   stage.style.setProperty("--p", "0");
   stage.style.setProperty("--rise", "0");
   window.scrollTo({ top: 0, behavior: "instant" });
@@ -80,28 +91,19 @@ function resetHero() {
 if (scene) {
   if (reduceMotion) {
     heroState = "risen";
+    ridePlayed = true;
     stage.style.setProperty("--p", "1");
     stage.style.setProperty("--rise", "1");
-    stage.classList.add("afloat");
+    stage.classList.add("lg1", "lg2", "lg3", "afloat");
   } else {
     let touchCaptured = false;
     let touchStartY = 0;
-    let touchIsDown = false;
 
     const atHero = () => window.scrollY <= 2;
 
     window.addEventListener("touchstart", (e) => {
-      touchIsDown = true;
-      if (riding && atHero()) {
-        /* a second touch mid-ride must not natively scroll either */
-        touchCaptured = true;
-        document.documentElement.style.touchAction = "none";
-        document.body.style.touchAction = "none";
-        return;
-      }
-      if (!atHero()) return;
+      if (!atHero() || riding) return;
       if (heroState === "top") {
-        /* hold the page: native pan never starts, so momentum cannot exist */
         touchCaptured = true;
         touchStartY = e.touches[0].clientY;
         document.documentElement.style.touchAction = "none";
@@ -130,19 +132,15 @@ if (scene) {
       }
     }, { passive: false });
 
-    /* reverse detection when the gesture was not captured (risen state) */
     window.addEventListener("touchmove", (e) => {
-      if (riding || !touchIsDown || touchCaptured || !atHero()) return;
+      if (riding || touchCaptured || !atHero()) return;
       if (heroState === "risen" && e.touches[0].clientY - touchStartY > 12) playRide("rev");
     }, { passive: true });
 
     const releaseTouch = () => {
-      touchIsDown = false;
-      if (touchCaptured) {
-        touchCaptured = false;
-        document.documentElement.style.touchAction = "";
-        document.body.style.touchAction = "";
-      }
+      touchCaptured = false;
+      document.documentElement.style.touchAction = "";
+      document.body.style.touchAction = "";
     };
 
     window.addEventListener("touchend", releaseTouch, { passive: true });
@@ -163,12 +161,6 @@ if (scene) {
       }
     }, { passive: false });
 
-    window.addEventListener("keydown", (e) => {
-      if (riding && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Home", "End"].includes(e.key)) {
-        e.preventDefault();
-      }
-    }, { passive: false });
-
     window.addEventListener("scroll", () => {
       if (riding) {
         if (window.scrollY > 2) window.scrollTo(0, 0);
@@ -179,6 +171,12 @@ if (scene) {
         playRide("fwd");
       }
     }, { passive: true });
+
+    window.addEventListener("keydown", (e) => {
+      if (riding && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Home", "End"].includes(e.key)) {
+        e.preventDefault();
+      }
+    }, { passive: false });
 
     new IntersectionObserver((entries) => {
       scene.classList.toggle("offscreen", !entries[0].isIntersecting);
