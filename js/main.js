@@ -15,131 +15,150 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-/* ---- scroll-driven cross scene ----
-   - delta-time smoothing: identical feel on 60Hz / 120Hz
-   - loop sleeps when the hero is off-screen or the tab is hidden
-   - no per-frame layout reads; scene metrics cached, refreshed on resize
-   - CSS variables only written when their quantized value changes */
+/* ---- cross rise: a two-state gate with all-or-nothing rides ---- */
 
-const SNAP_RATE = 9.5;
-const SPLASH_AT = 0.55;
-const AFLOAT_AT = 0.97;
-
-let target = 0;
-let current = 0;
+let heroState = "top"; /* "top" (sunken) | "risen" (afloat) */
+let riding = false;
 let splashed = false;
-let sceneVisible = true;
-let rafId = null;
-let lastTime = 0;
-let lastP = -1;
-let lastRise = -1;
-let sceneStart = 0;
-let scrollable = 1;
 
-function measureScene() {
-  const rect = scene.getBoundingClientRect();
-  sceneStart = rect.top + window.scrollY;
-  scrollable = Math.max(1, scene.offsetHeight - window.innerHeight);
-}
-
-function frame(now) {
-  rafId = null;
-  if (!sceneVisible || document.hidden) return;
-
-  const dt = Math.min(0.05, (now - lastTime) / 1000) || 0.016;
-  lastTime = now;
-
-  target = clamp01((window.scrollY - sceneStart) / scrollable);
-  const diff = target - current;
-  if (Math.abs(diff) > 0.0004) {
-    current += diff * (1 - Math.exp(-SNAP_RATE * dt));
-  } else {
-    current = target;
-  }
-
-  const rise = smoothstep((current - 0.12) / 0.55);
-  const p = Math.round(current * 1000) / 1000;
-  const rq = Math.round(rise * 1000) / 1000;
-
-  if (p !== lastP) {
-    stage.style.setProperty("--p", p);
-    lastP = p;
-  }
-  if (rq !== lastRise) {
-    stage.style.setProperty("--rise", rq);
-    lastRise = rq;
-  }
-
-  if (rise > SPLASH_AT && !splashed) {
-    splashed = true;
-    stage.querySelector(".splash").classList.add("go");
-  }
-  if (splashed && current < 0.04) {
-    splashed = false;
-    stage.querySelector(".splash").classList.remove("go");
-  }
-
-  stage.classList.toggle("afloat", rise > AFLOAT_AT);
-  rafId = requestAnimationFrame(frame);
-}
-
-function startLoop() {
-  if (rafId === null && !reduceMotion && sceneVisible && !document.hidden) {
-    lastTime = performance.now();
-    rafId = requestAnimationFrame(frame);
-  }
-}
-
-function stopLoop() {
-  if (rafId !== null) {
-    cancelAnimationFrame(rafId);
-    rafId = null;
-  }
-}
-
-if (!reduceMotion && scene) {
-  const weakDevice =
-    (navigator.hardwareConcurrency || 8) <= 4 ||
-    (navigator.deviceMemory || 8) <= 4;
-  if (weakDevice) scene.classList.add("lite");
-
-  measureScene();
-  startLoop();
-
-  const sceneObserver = new IntersectionObserver(
-    (entries) => {
-      sceneVisible = entries[0].isIntersecting;
-      scene.classList.toggle("offscreen", !sceneVisible);
-      if (sceneVisible) {
-        measureScene();
-        startLoop();
-      } else {
-        stopLoop();
-      }
-    },
-    { threshold: 0 }
-  );
-  sceneObserver.observe(scene);
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      stopLoop();
-    } else {
-      measureScene();
-      startLoop();
+function playRide(dir) {
+  if (riding) return;
+  riding = true;
+  const duration = dir === "fwd" ? 2200 : 1800;
+  const start = performance.now();
+  const step = (now) => {
+    const t = Math.min(1, (now - start) / duration);
+    const q = 1 - Math.pow(1 - t, 3);
+    const p = dir === "fwd" ? q : 1 - q;
+    const rise = smoothstep((p - 0.12) / 0.55);
+    stage.style.setProperty("--p", p.toFixed(3));
+    stage.style.setProperty("--rise", rise.toFixed(3));
+    stage.classList.toggle("afloat", rise > 0.97);
+    if (dir === "fwd" && rise > 0.55 && !splashed) {
+      splashed = true;
+      stage.querySelector(".splash").classList.add("go");
     }
-  });
+    if (t < 1) {
+      requestAnimationFrame(step);
+      return;
+    }
+    heroState = dir === "fwd" ? "risen" : "top";
+    if (heroState === "top") {
+      stage.querySelector(".splash").classList.remove("go");
+      splashed = false;
+    }
+    riding = false;
+  };
+  requestAnimationFrame(step);
+}
 
-  let resizeTimer;
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(measureScene, 150);
-  });
-  window.addEventListener("load", measureScene);
-} else if (scene) {
-  stage.style.setProperty("--p", "1");
-  stage.style.setProperty("--rise", "1");
-  stage.classList.add("afloat");
+if (scene) {
+  if (reduceMotion) {
+    heroState = "risen";
+    stage.style.setProperty("--p", "1");
+    stage.style.setProperty("--rise", "1");
+    stage.classList.add("afloat");
+  } else {
+    let touchCaptured = false;
+    let touchStartY = 0;
+    let touchIsDown = false;
+
+    const atHero = () => window.scrollY <= 2;
+
+    window.addEventListener("touchstart", (e) => {
+      touchIsDown = true;
+      if (riding && atHero()) {
+        /* a second touch mid-ride must not natively scroll either */
+        touchCaptured = true;
+        document.documentElement.style.touchAction = "none";
+        document.body.style.touchAction = "none";
+        return;
+      }
+      if (!atHero()) return;
+      if (heroState === "top") {
+        /* hold the page: native pan never starts, so momentum cannot exist */
+        touchCaptured = true;
+        touchStartY = e.touches[0].clientY;
+        document.documentElement.style.touchAction = "none";
+        document.body.style.touchAction = "none";
+      } else {
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: false });
+
+    window.addEventListener("touchmove", (e) => {
+      if (riding) {
+        if (e.cancelable) e.preventDefault();
+        if (window.scrollY > 2) window.scrollTo(0, 0);
+        return;
+      }
+      if (!touchCaptured) return;
+      if (e.cancelable) e.preventDefault();
+      const delta = touchStartY - e.touches[0].clientY;
+      if (heroState === "top" && delta > 10) {
+        playRide("fwd");
+      } else if (heroState === "risen" && delta < -12) {
+        releaseTouch();
+        playRide("rev");
+      } else if (heroState === "risen" && delta > 12) {
+        releaseTouch();
+      }
+    }, { passive: false });
+
+    /* reverse detection when the gesture was not captured (risen state) */
+    window.addEventListener("touchmove", (e) => {
+      if (riding || !touchIsDown || touchCaptured || !atHero()) return;
+      if (heroState === "risen" && e.touches[0].clientY - touchStartY > 12) playRide("rev");
+    }, { passive: true });
+
+    const releaseTouch = () => {
+      touchIsDown = false;
+      if (touchCaptured) {
+        touchCaptured = false;
+        document.documentElement.style.touchAction = "";
+        document.body.style.touchAction = "";
+      }
+    };
+
+    window.addEventListener("touchend", releaseTouch, { passive: true });
+    window.addEventListener("touchcancel", releaseTouch, { passive: true });
+
+    window.addEventListener("wheel", (e) => {
+      if (riding) {
+        e.preventDefault();
+        return;
+      }
+      if (!atHero()) return;
+      if (heroState === "top" && e.deltaY > 0) {
+        e.preventDefault();
+        playRide("fwd");
+      } else if (heroState === "risen" && e.deltaY < 0) {
+        e.preventDefault();
+        playRide("rev");
+      }
+    }, { passive: false });
+
+    window.addEventListener("keydown", (e) => {
+      if (riding && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Home", "End"].includes(e.key)) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    window.addEventListener("scroll", () => {
+      if (riding) {
+        if (window.scrollY > 2) window.scrollTo(0, 0);
+        return;
+      }
+      if (heroState === "top" && window.scrollY > 4) {
+        window.scrollTo(0, 0);
+        playRide("fwd");
+      }
+    }, { passive: true });
+
+    new IntersectionObserver((entries) => {
+      scene.classList.toggle("offscreen", !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(scene);
+  }
 }
 
 /* ---- nav ---- */
@@ -171,36 +190,7 @@ navLinks.querySelectorAll("a").forEach((link) => {
 (function () {
   const hint = document.getElementById("scrollHint");
   if (!hint || !scene) return;
-
-  hint.addEventListener("click", () => {
-    const targetY =
-      scene.getBoundingClientRect().top + window.scrollY + scene.offsetHeight - window.innerHeight;
-    const startY = window.scrollY;
-    const dist = targetY - startY;
-    if (dist <= 0) return;
-
-    if (reduceMotion) {
-      window.scrollTo({ top: targetY, behavior: "instant" });
-      return;
-    }
-
-    const duration = 2200;
-    const start = performance.now();
-    let cancelled = false;
-    const cancel = () => { cancelled = true; };
-    window.addEventListener("wheel", cancel, { passive: true, once: true });
-    window.addEventListener("touchstart", cancel, { passive: true, once: true });
-    window.addEventListener("keydown", cancel, { once: true });
-
-    const step = (now) => {
-      if (cancelled) return;
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      window.scrollTo({ top: startY + dist * eased, behavior: "instant" });
-      if (t < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  });
+  hint.addEventListener("click", () => playRide("fwd"));
 })();
 
 /* ---- reveal on scroll ---- */

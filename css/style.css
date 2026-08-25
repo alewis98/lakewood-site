@@ -22,7 +22,10 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: none;
+}
 
 body {
   font-family: var(--font-body);
@@ -232,14 +235,14 @@ a { color: inherit; }
 
 .scene {
   position: relative;
-  height: 300vh;
+  height: 100vh;
+  height: 100svh;
   background: var(--navy-900);
 }
 
 .stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+  position: relative;
+  height: 100%;
   overflow: hidden;
   background: linear-gradient(to bottom, #050e1c 0%, #0a2036 42%, #10344e 68%, #164562 100%);
 }
@@ -399,7 +402,7 @@ a { color: inherit; }
 .splash {
   position: absolute;
   left: 50%;
-  top: calc(100% - max(100vw / 1200, 100vh / 800) * 220);
+  top: calc(100% - max(100vw / 1200, 100% / 800) * 220);
   width: 0;
   height: 0;
   z-index: 7;
@@ -1123,7 +1126,6 @@ a { color: inherit; }
 }
 
 @media (max-width: 640px) {
-  .scene { height: 260vh; }
   .visit-grid { grid-template-columns: 1fr; }
   .cta-band { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; gap: 1.8rem; }
@@ -1134,9 +1136,6 @@ a { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-
-  .scene { height: auto; }
-  .stage { position: relative; height: 100vh; }
 
   .cross-rig { transform: none !important; }
   .hero-copy { opacity: 1 !important; transform: none !important; }
