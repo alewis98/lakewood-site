@@ -535,7 +535,7 @@ a { color: inherit; }
   left: 55%;
   top: 20%;
   transform: translate(-50%, -50%) scale(0.75);
-  width: max(240px, min(72vw, 860px));
+  width: max(380px, min(72vw, 860px));
   z-index: 7;
   color: #fff;
   pointer-events: none;
@@ -649,7 +649,7 @@ a { color: inherit; }
 .countdown {
   position: absolute;
   left: 50%;
-  bottom: clamp(80px, 13vh, 140px);
+  bottom: clamp(80px, 11vh, 140px);
   z-index: 8;
   display: inline-flex;
   flex-wrap: wrap;
@@ -690,7 +690,7 @@ a { color: inherit; }
     align-items: center;
     gap: 0.25rem;
     padding: 0.7rem 1.4rem;
-    bottom: clamp(84px, 13vh, 120px);
+    bottom: clamp(84px, 11vh, 120px);
   }
 
   .cd-label { font-size: 0.64rem; }
