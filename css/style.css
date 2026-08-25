@@ -444,9 +444,9 @@ a { color: inherit; }
 .ripple.r2 { border-width: 2px; }
 .ripple.r3 { border-width: 1.5px; }
 
-.splash.go .ripple { animation: ripple 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.splash.go .r2 { animation-delay: 0.25s; }
-.splash.go .r3 { animation-delay: 0.5s; }
+.splash.go .ripple { animation: ripple 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.splash.go .r2 { animation-delay: 0.18s; }
+.splash.go .r3 { animation-delay: 0.36s; }
 
 @keyframes ripple {
   0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0.95; }
@@ -465,7 +465,7 @@ a { color: inherit; }
   box-shadow: 0 0 8px rgba(255, 230, 180, 0.8);
 }
 
-.splash.go .droplet { animation: droplet 1.1s ease-out forwards; }
+.splash.go .droplet { animation: droplet 0.85s ease-out forwards; }
 .splash.go .d1 { animation-delay: 0.05s; --dx: -70px; --dy: -110px; }
 .splash.go .d2 { animation-delay: 0.12s; --dx: -34px; --dy: -140px; }
 .splash.go .d3 { animation-delay: 0.08s; --dx: 12px; --dy: -150px; }

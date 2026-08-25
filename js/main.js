@@ -28,14 +28,14 @@ function playRide(dir) {
   riding = true;
   ridePlayed = true;
   const id = ++rideId;
-  const duration = dir === "fwd" ? 2200 : 1800;
+  const duration = dir === "fwd" ? 1500 : 1200;
   const start = performance.now();
   const step = (now) => {
     if (id !== rideId) return;
     const t = Math.min(1, (now - start) / duration);
     const q = 1 - Math.pow(1 - t, 3);
     const p = dir === "fwd" ? q : 1 - q;
-    const rise = smoothstep((p - 0.12) / 0.55);
+    const rise = smoothstep((p - 0.05) / 0.786);
     stage.style.setProperty("--p", p.toFixed(3));
     stage.style.setProperty("--rise", rise.toFixed(3));
     stage.classList.toggle("afloat", rise > 0.97);
