@@ -21,12 +21,17 @@ let heroState = "top"; /* "top" (sunken) | "risen" (afloat) */
 let riding = false;
 let splashed = false;
 
+let rideId = 0;
+
 function playRide(dir) {
   if (riding) return;
   riding = true;
+  ridePlayed = true;
+  const id = ++rideId;
   const duration = dir === "fwd" ? 2200 : 1800;
   const start = performance.now();
   const step = (now) => {
+    if (id !== rideId) return;
     const t = Math.min(1, (now - start) / duration);
     const q = 1 - Math.pow(1 - t, 3);
     const p = dir === "fwd" ? q : 1 - q;
@@ -50,6 +55,19 @@ function playRide(dir) {
     riding = false;
   };
   requestAnimationFrame(step);
+}
+
+function resetHero() {
+  rideId++;
+  riding = false;
+  ridePlayed = false;
+  splashed = false;
+  heroState = "top";
+  stage.querySelector(".splash").classList.remove("go");
+  stage.classList.remove("afloat");
+  stage.style.setProperty("--p", "0");
+  stage.style.setProperty("--rise", "0");
+  window.scrollTo({ top: 0, behavior: "instant" });
 }
 
 if (scene) {
@@ -158,6 +176,15 @@ if (scene) {
     new IntersectionObserver((entries) => {
       scene.classList.toggle("offscreen", !entries[0].isIntersecting);
     }, { threshold: 0 }).observe(scene);
+  }
+
+  /* logo resets the hero to its initial state */
+  const brand = document.querySelector(".nav-brand");
+  if (brand) {
+    brand.addEventListener("click", (e) => {
+      e.preventDefault();
+      resetHero();
+    });
   }
 }
 
