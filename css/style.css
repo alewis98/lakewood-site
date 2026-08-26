@@ -96,7 +96,7 @@ a { color: inherit; }
 
 .logo-lockup .l1 {
   display: block;
-  font-family: "Libre Baskerville", Georgia, serif;
+  font-family: "Libre Baskerville", serif;
   font-weight: 700;
   font-size: 11.45cqw;
   line-height: 1;
@@ -106,7 +106,7 @@ a { color: inherit; }
 
 .logo-lockup .l2 {
   display: block;
-  font-family: "Times New Roman", Tinos, Georgia, serif;
+  font-family: Tinos, "Times New Roman", serif;
   font-style: italic;
   font-weight: 400;
   font-size: 10.65cqw;
