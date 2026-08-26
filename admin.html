@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Site Admin — Lakewood Community Church</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/png" href="assets/lakewood-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&amp;family=Outfit:wght@300;400;500;600;700&amp;family=Libre+Baskerville:wght@700&amp;family=Tinos:ital@1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body.admin-body { background: #eef1f5; font-family: "Outfit", system-ui, sans-serif; margin: 0; color: #14293f; }
+  .admin-bar { background: #071426; color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.8rem clamp(1rem, 3vw, 2rem); position: sticky; top: 0; z-index: 10; }
+  .admin-bar .logo-lockup { width: 150px; color: #fff; }
+  .admin-bar .bar-right { display: flex; align-items: center; gap: 0.9rem; font-size: 0.9rem; }
+  .admin-bar .bar-title { font-weight: 600; letter-spacing: 0.06em; }
+  .abtn { font-family: inherit; font-weight: 600; font-size: 0.88rem; border: 0; border-radius: 999px; padding: 0.55rem 1.1rem; cursor: pointer; background: #14293f; color: #fff; transition: transform 0.2s ease, opacity 0.2s ease; }
+  .abtn:hover { transform: translateY(-1px); }
+  .abtn.flame { background: linear-gradient(120deg, #e65336, #cf3a26); }
+  .abtn.ghost { background: transparent; color: inherit; border: 1.5px solid rgba(120, 140, 160, 0.5); }
+  .abtn.ghost:hover { border-color: #14293f; }
+  .abtn.sm { padding: 0.35rem 0.8rem; font-size: 0.8rem; }
+  .abtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .gate-wrap { display: grid; place-items: center; min-height: calc(100vh - 62px); padding: 2rem; }
+  .gate-card { background: #fff; border-radius: 18px; box-shadow: 0 24px 60px -24px rgba(7, 20, 38, 0.4); padding: 2.6rem 2.4rem; max-width: 26rem; text-align: center; }
+  .gate-card h1 { font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 1.6rem; margin: 0 0 0.5rem; }
+  .gate-card p { color: #46607a; font-size: 0.95rem; margin: 0 0 1.4rem; }
+  .gate-status { margin-top: 1rem; font-size: 0.85rem; color: #b3441f; min-height: 1.2em; }
+
+  .admin-toolbar { background: #fff; border-bottom: 1px solid #dde4ea; padding: 0.7rem clamp(1rem, 3vw, 2rem); display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; position: sticky; top: 62px; z-index: 9; }
+  .tab-pill { font-family: inherit; font-weight: 600; font-size: 0.88rem; border: 1.5px solid #c8d2db; background: #fff; color: #46607a; border-radius: 999px; padding: 0.45rem 1.1rem; cursor: pointer; transition: all 0.25s ease; }
+  .tab-pill.active { background: #14293f; border-color: #14293f; color: #fff; }
+  .toolbar-sep { flex: 1; }
+  .admin-status { font-size: 0.85rem; color: #46607a; min-height: 1.2em; }
+  .admin-status.err { color: #b3441f; font-weight: 600; }
+
+  .admin-main { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.95fr) minmax(340px, 440px); gap: 1.4rem; padding: 1.4rem clamp(1rem, 3vw, 2rem); max-width: 1600px; margin: 0 auto; align-items: start; }
+  .admin-list { display: grid; gap: 0.7rem; }
+  .entry-row { background: #fff; border-radius: 14px; box-shadow: 0 8px 22px -14px rgba(7, 20, 38, 0.3); padding: 0.85rem 1.05rem; display: grid; grid-template-columns: auto 1fr auto; gap: 0.4rem 1rem; align-items: center; cursor: pointer; }
+  .entry-row.selected { outline: 2px solid #2a7ba3; outline-offset: -2px; background: #f2f7fa; }
+  .entry-row .row-num { font-size: 0.75rem; color: #8aa0b4; font-weight: 600; }
+  .entry-row .row-main { min-width: 0; }
+  .entry-row .row-title { font-weight: 600; font-size: 0.98rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .entry-row .row-meta { font-size: 0.8rem; color: #46607a; display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+  .badge { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.18rem 0.55rem; border-radius: 999px; }
+  .badge.live { background: #e2f3e6; color: #1d7a3a; }
+  .badge.scheduled { background: #fdf1dc; color: #9a6b12; }
+  .badge.expired { background: #eceff1; color: #78909c; }
+  .entry-actions { display: flex; gap: 0.35rem; }
+  .iconbtn { width: 32px; height: 32px; border-radius: 9px; border: 1px solid #dde4ea; background: #fff; cursor: pointer; display: grid; place-items: center; color: #46607a; transition: all 0.2s ease; }
+  .iconbtn:hover { border-color: #14293f; color: #14293f; }
+  .iconbtn.danger:hover { border-color: #b3441f; color: #b3441f; }
+  .iconbtn:disabled { opacity: 0.35; cursor: default; }
+  .iconbtn svg { width: 15px; height: 15px; }
+
+  .admin-form, .admin-preview { background: #fff; border-radius: 16px; box-shadow: 0 14px 40px -22px rgba(7, 20, 38, 0.4); padding: 1.4rem; position: relative; }
+  .admin-form[hidden], .admin-preview[hidden] { display: none; }
+  .admin-form h3, .admin-preview h3 { margin: 0 0 1rem; font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  .field { margin-bottom: 0.85rem; }
+  .field label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem; color: #46607a; }
+  .field label small { font-weight: 400; color: #8aa0b4; }
+  .field input, .field textarea { width: 100%; font: inherit; font-size: 0.92rem; border: 1.5px solid #d5dde4; border-radius: 10px; padding: 0.55rem 0.75rem; color: #14293f; background: #fbfcfd; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: #2a7ba3; box-shadow: 0 0 0 3px rgba(42, 123, 163, 0.15); }
+  .field textarea { resize: vertical; min-height: 110px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  .img-row { display: flex; gap: 0.45rem; margin-bottom: 0.45rem; }
+  .img-row input { flex: 1; }
+  .form-error { color: #b3441f; font-weight: 600; font-size: 0.88rem; min-height: 1.1em; margin: 0.6rem 0; }
+  .form-actions { display: flex; gap: 0.6rem; margin-top: 0.4rem; }
+  .admin-preview .feed-grid { grid-template-columns: 1fr; margin-top: 0; }
+  .admin-preview .post-card { box-shadow: 0 10px 26px -16px rgba(7, 20, 38, 0.35); }
+
+  @media (max-width: 1100px) {
+    .admin-main { grid-template-columns: 1fr; }
+    .admin-form, .admin-preview { position: static; }
+  }
+
+  #gate[hidden], #app[hidden], #formPanel[hidden] { display: none; }
+  .spinner { width: 34px; height: 34px; border: 3px solid #d8e0e8; border-top-color: #14293f; border-radius: 50%; margin: 0 auto 1rem; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body class="admin-body">
+
+<div class="admin-bar">
+  <span class="logo-lockup" aria-hidden="true"><img class="cross" src="assets/logo-cross.svg" alt=""><span class="l1">LAKEWOOD</span><span class="l2">Community Church</span></span>
+  <span class="bar-title">Site Admin</span>
+  <div class="bar-right">
+    <span id="whoami"></span>
+    <button class="abtn ghost sm" id="signOutBtn" hidden>Sign out</button>
+  </div>
+</div>
+
+<div class="gate-wrap" id="gate">
+  <div class="gate-card">
+    <div class="spinner" id="gateSpinner"></div>
+    <h1>Site administration</h1>
+    <p id="gateText">Checking your session&hellip;</p>
+    <button class="abtn flame" id="signInBtn" hidden>Sign in with Google</button>
+    <div class="gate-status" id="gateStatus"></div>
+  </div>
+</div>
+
+<div id="app" hidden>
+  <div class="admin-toolbar">
+    <button class="tab-pill active" data-tab="Announcements">Announcements</button>
+    <button class="tab-pill" data-tab="Blog">Thoughts from the Pastor</button>
+    <span class="toolbar-sep"></span>
+    <button class="abtn flame sm" id="newBtn">+ New entry</button>
+    <button class="abtn sm" id="refreshBtn">Refresh</button>
+    <button class="abtn sm" id="exportBtn">Export CSV</button>
+    <button class="abtn sm" id="importBtn">Import CSV</button>
+    <input type="file" id="importFile" accept=".csv,text/csv" hidden>
+    <span class="admin-status" id="statusMsg"></span>
+  </div>
+
+  <div class="admin-main">
+    <section class="admin-list" id="entryList" aria-label="Entries"></section>
+
+    <aside class="admin-preview">
+      <h3>Preview</h3>
+      <div class="feed-grid" id="formPreview"></div>
+    </aside>
+
+    <aside class="admin-form" id="formPanel" hidden>
+      <h3 id="formHeading">New entry</h3>
+      <div class="field">
+        <label for="fTitle">Title <em>*</em></label>
+        <input id="fTitle" type="text" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="fSubtitle">Subtitle</label>
+        <input id="fSubtitle" type="text" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="fText">Text <em>*</em></label>
+        <textarea id="fText"></textarea>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="fStart">Start Date <small>(blank = now)</small></label>
+          <input id="fStart" type="date">
+        </div>
+        <div class="field">
+          <label for="fEnd">End Date <small>(blank = never)</small></label>
+          <input id="fEnd" type="date">
+        </div>
+      </div>
+      <div class="field">
+        <label for="fDisplay">Display Date <small>(blank = show Start Date)</small></label>
+        <input id="fDisplay" type="date">
+      </div>
+      <div class="field">
+        <label>Images <small>(first = main; each extra becomes a carousel slide)</small></label>
+        <div id="fImages"></div>
+        <button class="abtn ghost sm" type="button" id="addImageBtn">+ Add image</button>
+      </div>
+      <div class="form-error" id="formError"></div>
+      <div class="form-actions">
+        <button class="abtn flame" id="saveBtn">Save</button>
+        <button class="abtn ghost" id="cancelBtn">Cancel</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client"></script>
+<script src="js/gsheets.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
