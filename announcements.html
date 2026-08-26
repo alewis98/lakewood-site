@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prayer Requests — Lakewood Community Church | Ringgold, VA</title>
-<meta name="description" content="We are honored to pray for you and your loved ones. Send your prayer request to Lakewood Community Church in Ringgold, VA.">
+<title>Announcements — Lakewood Community Church | Ringgold, VA</title>
+<meta name="description" content="Current announcements from Lakewood Community Church in Ringgold, VA — events, updates, and church family news.">
 <link rel="icon" type="image/svg+xml" href="assets/logo-cross.svg">
   <link rel="icon" type="image/png" href="assets/lakewood-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Outfit:wght@300;400;500;600;700&family=Libre+Baskerville:wght@700&family=Tinos:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&amp;family=Outfit:wght@300;400;500;600;700&amp;family=Libre+Baskerville:wght@700&amp;family=Tinos:ital@1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -34,10 +34,11 @@
 </header>
 
 <section class="page-hero">
+  <img class="hero-bg" src="assets/bible-open.jpg" alt="" aria-hidden="true">
   <div class="wrap">
-    <p class="eyebrow">We Will Pray With You</p>
-    <h1>Prayer Requests</h1>
-    <p class="hero-sub">We are honored to pray for you and your loved ones. Share your request and we will include the person(s) on our prayer list.</p>
+    <p class="eyebrow">Church News</p>
+    <h1>Announcements</h1>
+    <p class="hero-sub">What&rsquo;s happening in the Lakewood family — events, updates, and news from our church and community.</p>
   </div>
   <svg class="wave-bottom" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path fill="currentColor" d="M0,44 C240,84 480,6 720,38 C960,70 1200,16 1440,50 L1440,90 L0,90 Z"/></svg>
 </section>
@@ -45,36 +46,9 @@
 <main>
   <section class="section">
     <div class="wrap">
-      <div class="prose reveal">
-        <p class="lead">No request is too small and no burden is too heavy. Our church family — and our Wednesday morning prayer group — would be honored to lift you up.</p>
+      <div class="feed-grid" id="announcementList">
+        <div class="feed-empty"><p>Loading announcements&hellip;</p></div>
       </div>
-
-      <form class="form-card reveal" data-mailto="lakewoodcommunitychurch@gmail.com" data-subject="Prayer Request from the Lakewood website">
-        <div class="form-grid">
-          <div class="field">
-            <label for="pr-name">Your Name <em>*</em></label>
-            <input id="pr-name" name="Name" type="text" required autocomplete="name">
-          </div>
-          <div class="field">
-            <label for="pr-email">Your Email <em>*</em></label>
-            <input id="pr-email" name="Email" type="email" required autocomplete="email">
-          </div>
-          <div class="field">
-            <label for="pr-request">Prayer Request <em>*</em></label>
-            <textarea id="pr-request" name="Prayer Request" required placeholder="Leave the name of the person(s) you would like for us to pray for, and any additional information so we know how to pray."></textarea>
-          </div>
-          <div class="field">
-            <label style="display: flex; align-items: center; gap: 0.6rem; font-weight: 500;">
-              <input type="checkbox" name="Would like to be contacted" value="Yes — please contact me with information about the church" style="width: auto;">
-              I would like to be contacted with information about our church — we welcome you to visit with us!
-            </label>
-          </div>
-          <div>
-            <button class="btn btn-primary" type="submit">Send Prayer Request</button>
-          </div>
-        </div>
-        <p class="form-note">Submitting opens your email app with your request ready to send to the church office. You can also reach us at <strong>(434) 822-5153</strong>.</p>
-      </form>
     </div>
   </section>
 </main>
@@ -116,5 +90,7 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="js/gsheets.js"></script>
+<script src="js/announcements.js"></script>
 </body>
 </html>
