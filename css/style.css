@@ -532,12 +532,13 @@ a { color: inherit; }
 
 .hero-logo {
   position: absolute;
-  left: 55%;
+  left: 50%;
   top: 20%;
   transform: translate(-50%, -50%) scale(0.75);
   width: max(380px, min(72vw, 860px));
   z-index: 7;
   color: #fff;
+  text-align: center;
   pointer-events: none;
 }
 
@@ -548,6 +549,8 @@ a { color: inherit; }
   transform: translateY(14px);
   transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.hero-logo .cross { left: -1%; }
 
 .stage.lg1 .hero-logo .cross { opacity: 1; transform: translateY(0); }
 .stage.lg2 .hero-logo .l1 { opacity: 1; transform: translateY(0); }
