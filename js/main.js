@@ -21,6 +21,7 @@ let heroState = "top"; /* "top" (sunken) | "risen" (afloat) */
 let riding = false;
 let splashed = false;
 let rideId = 0;
+let rideBypass = false;
 
 function playRide(dir) {
   if (riding) return;
@@ -103,6 +104,7 @@ if (scene) {
 
     window.addEventListener("touchstart", (e) => {
       if (!atHero() || riding) return;
+      if (e.target.closest("a, button")) return;
       if (heroState === "top") {
         touchCaptured = true;
         touchStartY = e.touches[0].clientY;
@@ -151,7 +153,7 @@ if (scene) {
         e.preventDefault();
         return;
       }
-      if (!atHero()) return;
+      if (rideBypass || !atHero()) return;
       if (heroState === "top" && e.deltaY > 0) {
         e.preventDefault();
         playRide("fwd");
@@ -161,16 +163,34 @@ if (scene) {
       }
     }, { passive: false });
 
+    let rearmTimer = null;
     window.addEventListener("scroll", () => {
       if (riding) {
         if (window.scrollY > 2) window.scrollTo(0, 0);
         return;
       }
-      if (heroState === "top" && window.scrollY > 4) {
+      if (window.scrollY <= 2) {
+        /* re-arm only after the scroll settles at the very top */
+        clearTimeout(rearmTimer);
+        rearmTimer = setTimeout(() => {
+          if (window.scrollY <= 2) rideBypass = false;
+        }, 250);
+      }
+      if (heroState === "top" && !rideBypass && window.scrollY > 4) {
         window.scrollTo(0, 0);
         playRide("fwd");
       }
     }, { passive: true });
+
+    /* in-page links to targets below the hero skip the ride */
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      const target = document.getElementById(a.getAttribute("href").slice(1));
+      if (target && target.getBoundingClientRect().top + window.scrollY > window.innerHeight * 0.5) {
+        rideBypass = true;
+      }
+    });
 
     window.addEventListener("keydown", (e) => {
       if (riding && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Home", "End"].includes(e.key)) {
@@ -201,6 +221,19 @@ function onNavScroll() {
 
 window.addEventListener("scroll", onNavScroll, { passive: true });
 onNavScroll();
+
+/* keep the menu from flashing when resizing across the mobile breakpoint */
+let navResizeTimer;
+window.addEventListener("resize", () => {
+  nav.classList.add("no-anim");
+  clearTimeout(navResizeTimer);
+  navResizeTimer = setTimeout(() => nav.classList.remove("no-anim"), 150);
+  if (window.innerWidth > 1080 && nav.classList.contains("open")) {
+    nav.classList.remove("open");
+    navToggle.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+});
 
 navToggle.addEventListener("click", () => {
   const open = nav.classList.toggle("open");
