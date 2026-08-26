@@ -1151,7 +1151,10 @@ a { color: inherit; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
-@media (max-width: 860px) {
+.nav.no-anim,
+.nav.no-anim .nav-links { transition: none !important; }
+
+@media (max-width: 1080px) {
   .nav-toggle { display: flex; }
 
   .nav-brand,

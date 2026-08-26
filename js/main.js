@@ -202,6 +202,19 @@ function onNavScroll() {
 window.addEventListener("scroll", onNavScroll, { passive: true });
 onNavScroll();
 
+/* keep the menu from flashing when resizing across the mobile breakpoint */
+let navResizeTimer;
+window.addEventListener("resize", () => {
+  nav.classList.add("no-anim");
+  clearTimeout(navResizeTimer);
+  navResizeTimer = setTimeout(() => nav.classList.remove("no-anim"), 150);
+  if (window.innerWidth > 1080 && nav.classList.contains("open")) {
+    nav.classList.remove("open");
+    navToggle.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+});
+
 navToggle.addEventListener("click", () => {
   const open = nav.classList.toggle("open");
   navToggle.setAttribute("aria-expanded", String(open));
