@@ -108,8 +108,7 @@ window.ChurchSheet = (() => {
           images
         };
       })
-      .filter((o) => (!o.start || o.start <= now) && (!o.end || o.end >= endOfToday))
-      .sort((a, b) => (b.start ? b.start.getTime() : 0) - (a.start ? a.start.getTime() : 0));
+      .filter((o) => (!o.start || o.start <= now) && (!o.end || o.end >= endOfToday));
     return items;
   }
 
@@ -217,5 +216,12 @@ window.ChurchSheet = (() => {
     card.addEventListener("touchend", () => { setTimeout(start, 400); }, { passive: true });
   }
 
-  return { fetchTab, parseDate, formatDate, esc, buildMedia, attachCarouselAutoplay };
+  function buildCSV(rows) {
+    return rows.map((r) => r.map((c) => {
+      const v = c == null ? "" : String(c);
+      return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+    }).join(",")).join("\r\n") + "\r\n";
+  }
+
+  return { fetchTab, parseDate, parseCSV, buildCSV, formatDate, esc, buildMedia, attachCarouselAutoplay };
 })();
